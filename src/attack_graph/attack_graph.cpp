@@ -277,6 +277,17 @@ Predicate* predicateContainer::add_predicate(char *s, int a, Type t)
    string str = s ;
    string pred = s ;
    str = pred + '/' + arity;
+
+   if(str == "\\==/2") {
+    p = new Predicate(pred,primitive, a) ;
+    return p;
+   }
+   if(str == "==/2") {
+       p = new Predicate(pred,primitive, a) ;
+       return p;
+      }
+
+
    i= predicates.find( str );
 
    if( i  == predicates.end() ) {

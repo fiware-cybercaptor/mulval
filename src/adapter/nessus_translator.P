@@ -41,6 +41,9 @@ lossTypetoEffect(Losstype, Effect):-
             member('data_loss', Losstype),
             hasEffect(Effect).
 
+member(Host1, Host2):-
+    member(Host, Host2).
+
 cvss(CVE, AC):-
 	vuln_exists(Host, CVE, Prog, _RangeList, _Losstype, _Severity, AC ).
 

@@ -22,7 +22,7 @@ cap_luck                      return CAP_LUCK;
 \n                           return END_LINE;
 [0-9]*\.[0-9]+                *mylval=(char *)strdup(yytext); return FLOAT;
 [\.\[\]\,\(\)]                 return (int) yytext[0];
-[\/a-zA-Z0-9_\-\+\.]+     *mylval=(char *)strdup(yytext); return ATOM;
+[\/a-zA-Z0-9_\-\+\.\=\\]+     *mylval=(char *)strdup(yytext); return ATOM;
 [ \t]+                       return SP;
 %%
 

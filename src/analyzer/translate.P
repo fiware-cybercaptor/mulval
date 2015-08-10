@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+:- import member/2 from lists.
+
 /* Translate interaction rules into an output file according to Mode */
 translate_interaction_rules(Mode,  OutputFile) :-
      tell(OutputFile),
