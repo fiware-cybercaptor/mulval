@@ -1,0 +1,4 @@
+*.class
+*.xwam
+*.o
+*.DS_Store
