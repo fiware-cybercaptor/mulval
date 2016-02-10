@@ -21,17 +21,21 @@ There are two types of predicates:
 Note: Everything ends with a period '.'.
 
 Declare a primitive:
+
 	primitive(primitive_name(_parameter, ...)).
 
 Note that parameters must start with an underscore '\_'.
 
 Declare a derived:
+
 	derived(derived_name(_parameter, ...)).
 
 Table a derived:
+
 	:- table derived_name/number_of_parameters.
 
 Declare an interaction rule:
+
 	interaction_rule(
 		(derived_name(Parameter, ...) :- predicate(Parameter, ...), ...),
 		rule_desc('rule description', number)).
