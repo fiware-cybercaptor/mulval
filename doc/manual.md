@@ -108,3 +108,7 @@ Below are some basic options:
 * -v: output the graph in .csv and .pdf format
 * -p: perform deep trimming on the attack graph to improve visualization (SHOULD NOT BE INVOKED IN PRODUCTION USE)
 * --nometric: do not show the metric information
+
+### Notes ###
+
+1. Avoid using non-alphanumeric characters when passing parameters. Characters to avoid include: colons ":". But it is probably not an exhaustive list)
