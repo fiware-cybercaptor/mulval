@@ -44,6 +44,7 @@ Declare an interaction rule:
 Remarks:
 * *predicate* could be either a primitive or a derived.
 * The *number* parameter in rule\_desc is still mysterious.
+* The rule description string **MUST** be between quotes and contain at least 2 words.
 * Variables must start with an uppercase letter, and constants must start with a lowercase letter.
 * If we do not need to name a variable (namely, if it is only used at one place in the rule), we can simply put an underscore '\_'.
 
