@@ -20,6 +20,7 @@ INTERACTIONRULES=$MULVALROOT/kb/interaction_rules.P
 INTERACTIONRULES_CVSS=$MULVALROOT/kb/interaction_rules_with_metrics.P
 RULES_WITH_METRIC_ARTIFACTS=$MULVALROOT/kb/interaction_rules_with_metric_artifacts.P
 rule_file=$INTERACTIONRULES
+output_file="$output_file"
 
 trace_option=completeTrace2
 
@@ -47,6 +48,9 @@ do
 
       -c | --constraint)
       ac_prev=constraint_file ;;
+
+	  -o)
+	  ac_prev=output_file ;;
 
       -g | --goal)
       ac_prev=goal ;;
@@ -80,7 +84,7 @@ do
       TRIMDOM=true ;;
 
       --cvss)
-      CVSS=true 
+      CVSS=true
       rule_file=$INTERACTIONRULES_CVSS ;;
 
       -ma)
@@ -93,6 +97,7 @@ do
       cat <<EOF
 Usage: graph_gen.sh [-r|--rule rulefile]
                     [-a|--additional additional_rulefile]
+					[-o output_file_name]
 		    [-c|--constraint constraint_file]
 		    [-g|--goal goal]
 		    [-d|--dynamic dynamic_file]
@@ -109,15 +114,15 @@ EOF
       exit ;;
 
       #unrecognized options will be passed to attack graph generator
-      -*) 
+      -*)
       ATTACK_GRAPH_OPTS="$ATTACK_GRAPH_OPTS $ac_option" ;;
 
       *)
       if test -n "$INPUT"
-      then 
+      then
 	  echo "Incorrect command-line option for graph_gen.sh: $ac_option" >&2
 	  exit 2
-      else 
+      else
 	  INPUT=$ac_option
       fi
   esac
@@ -144,7 +149,7 @@ fi
 if test -n "$SAT"
 then
     ATTACK_GRAPH_OPTS="-s $ATTACK_GRAPH_OPTS"
-fi    
+fi
 
 #DEBUG=true
 if test -n "$DEBUG"
@@ -265,24 +270,24 @@ if [ -f trace_output.P ]; then
     if [ -f metric.P ]; then
 	cat metric.P >> trace_output.P
     fi
-    $MULVALROOT/bin/attack_graph $ATTACK_GRAPH_OPTS trace_output.P > AttackGraph.txt
+    $MULVALROOT/bin/attack_graph $ATTACK_GRAPH_OPTS trace_output.P > $output_file.txt
     if [ "$?" -ne "0" ]; then exit 1; fi
 
     if test -n "$CSVOutput"
     then
-	grep -E "AND|OR|LEAF" AttackGraph.txt > VERTICES.CSV
-	grep -Ev "AND|OR|LEAF" AttackGraph.txt > ARCS.CSV
+	grep -E "AND|OR|LEAF" $output_file.txt > VERTICES.CSV
+	grep -Ev "AND|OR|LEAF" $output_file.txt > ARCS.CSV
 	if test -n "$TRIMDOM" ; then
             trim.py
 	fi
     fi
     if test -n "$VISUALIZE"; then
-	render.sh $VISUALIZATION_OPTS
+	render.sh $VISUALIZATION_OPTS -o $output_file
     else
-	echo "The attack graph data can be found in AttackGraph.txt."
+	echo "The attack graph data can be found in $output_file.txt."
     fi
     if test -n "$SATGUI"; then
-	$MULVALROOT/utils/load_policy.sh 
+	$MULVALROOT/utils/load_policy.sh
     fi
 else
     echo "The attack simulation encountered an error."
@@ -298,3 +303,7 @@ else
  exit 1
 fi
 
+if [ "$output_file" !=  "AttackGraph" ]
+then
+	mv AttackGraph.xml $output_file.xml
+fi
