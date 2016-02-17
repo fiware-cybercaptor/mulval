@@ -45,11 +45,14 @@ do
       *)
 #      -h | --help)
       cat <<EOF
-Usage: render.sh [--arclabel]
-                 [--reverse]
-                 [--simple]
-				 [-o output_file_name]
-                 [-h|--help]
+Usage: render.sh [options]
+Options:
+    --arclabel: Output labels  for the arcs
+    --reverse: Output the arcs in the reverse order
+    --simple: Do not show the vertex fact labels
+	--nometric: Do not show the metric information
+    -o output_name: Specify name of the output
+    -h|--help: Display this help
 EOF
       exit ;;
   esac

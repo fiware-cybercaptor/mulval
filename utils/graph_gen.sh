@@ -95,21 +95,21 @@ do
 
       -h | --help)
       cat <<EOF
-Usage: graph_gen.sh [-r|--rule rulefile]
-                    [-a|--additional additional_rulefile]
-					[-o output_file_name]
-		    [-c|--constraint constraint_file]
-		    [-g|--goal goal]
-		    [-d|--dynamic dynamic_file]
-		    [-p]
-		    [-s|--sat]
-		    [-t|--t trace_option]
-		    [-tr|--trim]
-		    [-v|--visualize [--arclabel] [--reverse]]
-                    [--cvss]
-	            [-h|--help]
-	            [attack_graph_options]
-	            input_file
+Usage: graph_gen.sh [options] input_file
+Options:
+    -s|--sat
+    -t|--t trace_option
+    -tr|--trim
+    -r|--rule rulefile: Specify rule file
+    -a|--additional additional_rulefile:  Specify another rule file
+    -g|--goal goal: Specify attack goal
+    -c|--constraint constraint_file: Specify a constraint file
+    -d|--dynamic dynamic_file: Specify dynamic changes file
+    -o output_file_name: Specify path and name of the output
+    -v|--visualize --arclabel --reverse:  Produce .csv, .dot, .eps and .pdf files
+    -p: Perform deep trimming on the attack graph
+    --cvss: Use the CVSS information contained in the input file
+    -h|--help: Print this help
 EOF
       exit ;;
 
@@ -120,10 +120,10 @@ EOF
       *)
       if test -n "$INPUT"
       then
-	  echo "Incorrect command-line option for graph_gen.sh: $ac_option" >&2
-	  exit 2
+		  echo "Incorrect command-line option for graph_gen.sh: $ac_option" >&2
+		  exit 2
       else
-	  INPUT=$ac_option
+		  INPUT=$ac_option
       fi
   esac
 done
