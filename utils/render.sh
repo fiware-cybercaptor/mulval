@@ -15,6 +15,7 @@
 
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
+output_file="AttackGraph"
 ac_prev=
 for ac_option
 do
@@ -38,13 +39,20 @@ do
       --simple)
       simple=true ;;
 
+	  -o)
+	  ac_prev=output_file;;
+
       *)
 #      -h | --help)
       cat <<EOF
-Usage: render.sh [--arclabel]
-                 [--reverse]
-                 [--simple]
-                 [-h|--help]
+Usage: render.sh [options]
+Options:
+    --arclabel: Output labels  for the arcs
+    --reverse: Output the arcs in the reverse order
+    --simple: Do not show the vertex fact labels
+	--nometric: Do not show the metric information
+    -o output_name: Specify name of the output
+    -h|--help: Display this help
 EOF
       exit ;;
   esac
@@ -53,7 +61,7 @@ done
 
 echo "Producing attack graph through GraphViz"
 
-echo digraph G { > AttackGraph.dot
+echo digraph G { > $output_file.dot
 
 if test -n "$simple"; then
     if test -n "$nometric"; then
@@ -68,29 +76,29 @@ else
 	vertice_sed_file=$MULVALROOT/utils/VERTICES.sed
     fi
 fi
-sed -f $vertice_sed_file VERTICES.CSV >> AttackGraph.dot
+sed -f $vertice_sed_file VERTICES.CSV >> $output_file.dot
 
 if test -n "$reverse"; then
     if test -n "$arclabel"; then
-	sed -f $MULVALROOT/utils/ARCS_reverse.sed ARCS.CSV >> AttackGraph.dot
+	sed -f $MULVALROOT/utils/ARCS_reverse.sed ARCS.CSV >> $output_file.dot
     else
-	sed -f $MULVALROOT/utils/ARCS_reverse_noLabel.sed ARCS.CSV >> AttackGraph.dot
+	sed -f $MULVALROOT/utils/ARCS_reverse_noLabel.sed ARCS.CSV >> $output_file.dot
     fi
 else
     if test -n "$arclabel"; then
-	sed -f $MULVALROOT/utils/ARCS.sed ARCS.CSV >> AttackGraph.dot
+	sed -f $MULVALROOT/utils/ARCS.sed ARCS.CSV >> $output_file.dot
     else
-	sed -f $MULVALROOT/utils/ARCS_noLabel.sed ARCS.CSV >> AttackGraph.dot
+	sed -f $MULVALROOT/utils/ARCS_noLabel.sed ARCS.CSV >> $output_file.dot
     fi
 fi
 
-echo } >> AttackGraph.dot
+echo } >> $output_file.dot
 
-dot -Tps AttackGraph.dot > AttackGraph.eps
-epstopdf AttackGraph.eps
+dot -Tps $output_file.dot > $output_file.eps
+epstopdf $output_file.eps
 
-echo "If successfully produced, the attack graph should be in AttackGraph.pdf"
+echo "If successfully produced, the attack graph should be in $output_file.pdf"
 
 if test -n "$PDF_READER"; then
-    $PDF_READER AttackGraph.pdf&
+    $PDF_READER $output_file.pdf&
 fi

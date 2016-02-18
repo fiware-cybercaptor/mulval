@@ -42,8 +42,9 @@ Declare an interaction rule:
 
 
 Remarks:
-* *predicate* could be either a primitive or a derived.
-* The *number* parameter in rule\_desc is still mysterious.
+* _predicate_ could be either a primitive or a derived.
+* The _number_ parameter in rule\_desc is still mysterious.
+* The rule description string **MUST** be between quotes and contain at least 2 words.
 * Variables must start with an uppercase letter, and constants must start with a lowercase letter.
 * If we do not need to name a variable (namely, if it is only used at one place in the rule), we can simply put an underscore '\_'.
 
@@ -107,3 +108,8 @@ Below are some basic options:
 * -v: output the graph in .csv and .pdf format
 * -p: perform deep trimming on the attack graph to improve visualization (SHOULD NOT BE INVOKED IN PRODUCTION USE)
 * --nometric: do not show the metric information
+
+### Notes ###
+
+1. Avoid using non-alphanumeric characters when passing parameters. Characters to avoid include: colons ":". But it is probably not an exhaustive list)
+2. Rule descriptions **MUST NOT** be void, or MulVal will just take one randomly (?)
